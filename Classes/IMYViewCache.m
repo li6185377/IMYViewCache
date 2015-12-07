@@ -13,6 +13,10 @@
 - (CFIndex)imyviewcache_retainCount;
 @end
 
+@interface IMYViewCache ()
+@property (nonatomic) NSInteger reducedCount; /**< 缩减过几次*/
+@end
+
 @implementation IMYViewCache
 - (instancetype)init
 {
@@ -47,10 +51,17 @@
 }
 - (void)reduceViewCache
 {
-    NSInteger holdCount = self.viewInfo.maxCount / 2;
-    NSInteger removeCount = self.cacheArray.count - holdCount;
-    if (removeCount > 0) {
-        [self.cacheArray removeObjectsInRange:NSMakeRange(0, removeCount)];
+    if (self.reducedCount >= 3) {
+        [self.cacheArray removeAllObjects];
+    }
+    else {
+        NSInteger holdCount = MAX(self.viewInfo.minCount,self.viewInfo.maxCount/2);
+        NSInteger removeCount = self.cacheArray.count - holdCount;
+        if (removeCount > 0) {
+            [self.cacheArray removeObjectsInRange:NSMakeRange(0, removeCount)];
+        }
+        self.reducedCount ++;
+        [self startClearCacheTimer];
     }
 }
 - (void)prepareLoadViewCache
@@ -94,6 +105,9 @@
         [self prepareLoadViewCache];
     }
     [self.cacheArray insertObject:cacheView atIndex:0];
+    
+    self.reducedCount = 0;
+    [self startClearCacheTimer];
 }
 - (void)prepareLoadViewOne
 {
@@ -166,7 +180,6 @@
                 [(id)viewInstance prepareForReuse];
             }
             [self addCacheView:viewInstance];
-            [self startClearCacheTimer];
         }
     });
 }

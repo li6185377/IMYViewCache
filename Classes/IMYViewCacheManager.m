@@ -38,7 +38,7 @@
     }
     return self;
 }
-- (void)registerClass:(Class)viewClass
+- (IMYViewCacheRegisterInfo*)registerClass:(Class)viewClass
 {
     IMYViewCacheRegisterInfo* info = [[IMYViewCacheRegisterInfo alloc] init];
     info.viewClass = viewClass;
@@ -49,16 +49,17 @@
         UINib* nib = [UINib nibWithNibName:viewString bundle:[NSBundle mainBundle]];
         info.nib = nib;
     }
-
     [self registerViewInfo:info];
+    return info;
 }
-- (void)registerClass:(Class)viewClass fromNib:(UINib*)nib
+- (IMYViewCacheRegisterInfo*)registerClass:(Class)viewClass fromNib:(UINib*)nib
 {
     IMYViewCacheRegisterInfo* info = [[IMYViewCacheRegisterInfo alloc] init];
     info.viewClass = viewClass;
     info.nib = nib;
 
     [self registerViewInfo:info];
+    return info;
 }
 
 - (void)registerViewInfo:(IMYViewCacheRegisterInfo*)info

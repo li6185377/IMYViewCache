@@ -13,8 +13,8 @@
 
 + (instancetype)shareInstance;
 
-- (void)registerClass:(Class)viewClass;
-- (void)registerClass:(Class)viewClass fromNib:(UINib*)nib;
+- (IMYViewCacheRegisterInfo*)registerClass:(Class)viewClass;
+- (IMYViewCacheRegisterInfo*)registerClass:(Class)viewClass fromNib:(UINib*)nib;
 - (void)registerViewInfo:(IMYViewCacheRegisterInfo*)info;
 
 - (id)instanceForClass:(Class)viewClass;
