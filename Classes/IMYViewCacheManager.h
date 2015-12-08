@@ -23,6 +23,8 @@
 - (id)instanceForClass:(Class)viewClass tableView:(UITableView*)tableView;
 - (id)instanceForClass:(Class)viewClass tableView:(UITableView*)tableView reuseIdentifier:(NSString*)reuseIdentifier;
 
+- (IMYViewCache*)getViewCacheForClass:(Class)viewClass reuseIdentifier:(NSString*)reuseIdentifier;
+
 @end
 
 @interface IMYViewCacheManager (IMY_UNAVAILABLE_ATTRIBUTE)
