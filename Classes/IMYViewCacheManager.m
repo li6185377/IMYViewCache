@@ -15,7 +15,7 @@
 @end
 
 @interface IMYViewCacheManager ()
-@property (strong, nonatomic) NSMutableDictionary* cacheMap;
+@property (strong, nonatomic) NSMutableArray* viewCachArray;
 - (void)willMoveToSuperview:(UIView*)newSuperview fromView:(UIView*)view;
 @end
 
@@ -34,10 +34,11 @@
     self = [super init];
     if (self) {
         [UIView imy_registerSwizzleViewCache];
-        self.cacheMap = [NSMutableDictionary dictionary];
+        self.viewCachArray = [NSMutableArray array];
     }
     return self;
 }
+
 - (IMYViewCacheRegisterInfo*)registerClass:(Class)viewClass
 {
     IMYViewCacheRegisterInfo* info = [[IMYViewCacheRegisterInfo alloc] init];
@@ -61,15 +62,44 @@
     [self registerViewInfo:info];
     return info;
 }
-
+- (IMYViewCacheRegisterInfo*)registerClass:(Class)viewClass fromNib:(UINib*)nib reuseIdentifier:(NSString*)reuseIdentifier maxCount:(NSInteger)maxCount
+{
+    IMYViewCacheRegisterInfo* info = [[IMYViewCacheRegisterInfo alloc] init];
+    info.viewClass = viewClass;
+    info.nib = nib;
+    info.reuseIdentifier = reuseIdentifier;
+    info.maxCount = maxCount;
+    
+    [self registerViewInfo:info];
+    return info;
+}
+- (IMYViewCache*)getViewCacheForClass:(Class)viewClass reuseIdentifier:(NSString*)reuseIdentifier
+{
+    if (viewClass == nil && reuseIdentifier.length == 0) {
+        return nil;
+    }
+    for (int i = 0; i < _viewCachArray.count; i++) {
+        IMYViewCache* viewCache = [_viewCachArray objectAtIndex:i];
+        BOOL finded = YES;
+        if (viewClass) {
+            finded = (viewCache.viewInfo.viewClass == viewClass);
+        }
+        if (reuseIdentifier.length > 0) {
+            finded = ([viewCache.viewInfo.reuseIdentifier isEqualToString:reuseIdentifier]);
+        }
+        if (finded) {
+            return viewCache;
+        }
+    }
+    return nil;
+}
 - (void)registerViewInfo:(IMYViewCacheRegisterInfo*)info
 {
     if (info.viewClass == nil) {
         NSAssert(NO, @"类名不能为空");
         return;
     }
-    NSString* cacheKey = NSStringFromClass(info.viewClass);
-    IMYViewCache* viewCache = [self.cacheMap objectForKey:cacheKey];
+    IMYViewCache* viewCache = [self getViewCacheForClass:info.viewClass reuseIdentifier:info.reuseIdentifier];
 
     if (viewCache) {
         NSAssert(NO, @"已经注册过该Class了");
@@ -77,38 +107,49 @@
     }
     viewCache = [[IMYViewCache alloc] init];
     viewCache.viewInfo = info;
-    viewCache.afterDelay = self.cacheMap.count * 0.5;
+    viewCache.afterDelay = self.viewCachArray.count * 0.5;
 
-    [self.cacheMap setObject:viewCache forKey:cacheKey];
+    [self.viewCachArray addObject:viewCache];
     [viewCache prepareLoadViewCache];
 }
 
 - (id)instanceForClass:(Class)viewClass
 {
-    NSString* cacheKey = NSStringFromClass(viewClass);
-    IMYViewCache* viewCache = [self.cacheMap objectForKey:cacheKey];
-    return [viewCache getViewInstance];
+    IMYViewCache* viewCache = [self getViewCacheForClass:viewClass reuseIdentifier:nil];
+    id cell = [viewCache getViewInstance];
+    return cell;
 }
 - (id)instanceForClass:(Class)viewClass tableView:(UITableView*)tableView
 {
-    NSString* cacheKey = NSStringFromClass(viewClass);
-    IMYViewCache* viewCache = [self.cacheMap objectForKey:cacheKey];
+    IMYViewCache* viewCache = [self getViewCacheForClass:viewClass reuseIdentifier:nil];
     id cell = [tableView dequeueReusableCellWithIdentifier:viewCache.viewInfo.reuseIdentifier];
     if (cell) {
         return cell;
     }
-    return [viewCache getViewInstance];
+    cell = [viewCache getViewInstance];
+    return cell;
+}
+- (id)instanceForClass:(Class)viewClass tableView:(UITableView*)tableView reuseIdentifier:(NSString*)reuseIdentifier
+{
+    id cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
+    if (cell) {
+        return cell;
+    }
+    IMYViewCache* viewCache = [self getViewCacheForClass:viewClass reuseIdentifier:reuseIdentifier];
+    cell = [viewCache getViewInstance];
+    return cell;
 }
 
 - (void)willMoveToSuperview:(UIView*)newSuperview fromView:(UIView*)view
 {
-    if (self.cacheMap.count == 0) {
+    if (self.viewCachArray.count == 0) {
         return;
     }
 
-    [self.cacheMap.allValues enumerateObjectsUsingBlock:^(IMYViewCache* viewCache, NSUInteger idx, BOOL* stop) {
+    for (int i = 0; i < _viewCachArray.count; i++) {
+        IMYViewCache* viewCache = [_viewCachArray objectAtIndex:i];
         [viewCache willMoveToSuperview:newSuperview fromView:view];
-    }];
+    }
 }
 @end
 

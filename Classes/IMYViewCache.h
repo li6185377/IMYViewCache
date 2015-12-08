@@ -14,7 +14,8 @@
 
 @property (strong, nonatomic) IMYViewCacheRegisterInfo* viewInfo;
 @property (strong, nonatomic) NSMutableArray* cacheArray;
-@property (nonatomic) double afterDelay; ///每个viewCache加载的间隔 由manager提供
+///每个viewCache加载的间隔 由manager提供
+@property (nonatomic) double afterDelay;
 ///返回一个 view  实例
 - (id)getViewInstance;
 

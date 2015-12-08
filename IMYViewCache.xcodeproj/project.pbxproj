@@ -19,6 +19,7 @@
 		36E9B3CE1C15611B00BAEBF4 /* IMYEBBrandSingleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E9B3CC1C15611B00BAEBF4 /* IMYEBBrandSingleCell.m */; };
 		36E9B3CF1C15611B00BAEBF4 /* IMYEBBrandSingleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36E9B3CD1C15611B00BAEBF4 /* IMYEBBrandSingleCell.xib */; };
 		36E9B3D21C1562B700BAEBF4 /* IMYDemoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E9B3D11C1562B700BAEBF4 /* IMYDemoVC.m */; };
+		36E9B3D51C166DEA00BAEBF4 /* UITableView+IMYViewCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E9B3D41C166DEA00BAEBF4 /* UITableView+IMYViewCache.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,8 @@
 		36E9B3CD1C15611B00BAEBF4 /* IMYEBBrandSingleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IMYEBBrandSingleCell.xib; sourceTree = "<group>"; };
 		36E9B3D01C1562B700BAEBF4 /* IMYDemoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMYDemoVC.h; sourceTree = "<group>"; };
 		36E9B3D11C1562B700BAEBF4 /* IMYDemoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IMYDemoVC.m; sourceTree = "<group>"; };
+		36E9B3D31C166DEA00BAEBF4 /* UITableView+IMYViewCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+IMYViewCache.h"; sourceTree = "<group>"; };
+		36E9B3D41C166DEA00BAEBF4 /* UITableView+IMYViewCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+IMYViewCache.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +110,8 @@
 				36E9B3C41C1560E400BAEBF4 /* IMYViewCacheManager.m */,
 				36E9B3C51C1560E400BAEBF4 /* IMYViewCacheRegisterInfo.h */,
 				36E9B3C61C1560E400BAEBF4 /* IMYViewCacheRegisterInfo.m */,
+				36E9B3D31C166DEA00BAEBF4 /* UITableView+IMYViewCache.h */,
+				36E9B3D41C166DEA00BAEBF4 /* UITableView+IMYViewCache.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -198,6 +203,7 @@
 				36E9B3B11C15609900BAEBF4 /* ViewController.m in Sources */,
 				36E9B3AE1C15609900BAEBF4 /* AppDelegate.m in Sources */,
 				36E9B3D21C1562B700BAEBF4 /* IMYDemoVC.m in Sources */,
+				36E9B3D51C166DEA00BAEBF4 /* UITableView+IMYViewCache.m in Sources */,
 				36E9B3AB1C15609900BAEBF4 /* main.m in Sources */,
 				36E9B3C71C1560E400BAEBF4 /* IMYViewCache.m in Sources */,
 				36E9B3CE1C15611B00BAEBF4 /* IMYEBBrandSingleCell.m in Sources */,

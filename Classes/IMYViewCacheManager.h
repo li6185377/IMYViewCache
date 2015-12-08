@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "IMYViewCacheRegisterInfo.h"
+#import "IMYViewCache.h"
 
 @interface IMYViewCacheManager : NSObject
 
@@ -15,10 +16,12 @@
 
 - (IMYViewCacheRegisterInfo*)registerClass:(Class)viewClass;
 - (IMYViewCacheRegisterInfo*)registerClass:(Class)viewClass fromNib:(UINib*)nib;
+- (IMYViewCacheRegisterInfo*)registerClass:(Class)viewClass fromNib:(UINib*)nib reuseIdentifier:(NSString*)reuseIdentifier maxCount:(NSInteger)maxCount;
 - (void)registerViewInfo:(IMYViewCacheRegisterInfo*)info;
 
 - (id)instanceForClass:(Class)viewClass;
 - (id)instanceForClass:(Class)viewClass tableView:(UITableView*)tableView;
+- (id)instanceForClass:(Class)viewClass tableView:(UITableView*)tableView reuseIdentifier:(NSString*)reuseIdentifier;
 
 @end
 
