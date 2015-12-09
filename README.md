@@ -1,6 +1,6 @@
 # IMYViewCache
 
-对View进行缓存  加块View初始化速度。 UITableViewCell 用处最大
+对View进行缓存  预加载UIView，提高界面切换速度。 支持全局UITableViewCell复用
 
 QQ群号 113767274  有什么问题或者改进的地方大家一起讨论
 
