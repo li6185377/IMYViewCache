@@ -6,13 +6,13 @@ QQ群号 113767274  有什么问题或者改进的地方大家一起讨论
 
 	使用 5s 测试
 	
-	no_cache 加载时间:0.005371
-	no_cache 加载时间:0.003294
-	no_cache 加载时间:0.003582
+	no_cache 加载时间:0.002630
+	no_cache 加载时间:0.001345
+	no_cache 加载时间:0.001508
 	
-	cache 加载时间:0.000275
-	cache 加载时间:0.000232
-	cache 加载时间:0.000233
+	cache 加载时间:0.000082
+	cache 加载时间:0.000048
+	cache 加载时间:0.000042
 	
 	差不多会差10倍
 	
@@ -43,22 +43,23 @@ QQ群号 113767274  有什么问题或者改进的地方大家一起讨论
  1 .  use `IMYViewCacheManager` register view class
 
  ```objective-c
-	[[IMYViewCacheManager shareInstance] registerClass:[IMYEBBrandSingleCell class]];
+ +(void)load
+{
+    [UITableView imy_registerClass:[IMYEBBrandSingleCell class] nib:[UINib nibWithNibName:@"IMYEBBrandSingleCell" bundle:nil] reuseIdentifier:@"IMYEBBrandSingleCell" cacheCount:8];
+}
+and 
+	UITableView *tableView = [new];
+	...
+    tableView.imy_usingViewCache = YES;
 ```		
 
  2 .  replace view initialization method
  
 ```objective-c
-	-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    IMYEBBrandSingleCell* cell = [[IMYViewCacheManager shareInstance] instanceForClass:[IMYEBBrandSingleCell class] tableView:tableView];
-    return cell;
-}
+    IMYEBBrandSingleCell* cell = [tableView dequeueReusableCellWithIdentifier:@"IMYEBBrandSingleCell"];
 ```
 
 3 . OK
  	
  		
- 
- 		
- 		
+
