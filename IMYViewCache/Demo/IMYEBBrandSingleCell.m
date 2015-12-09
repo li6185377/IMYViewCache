@@ -12,12 +12,6 @@
 @end
 
 @implementation IMYEBBrandSingleCell
-+(void)load
-{
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        [[IMYViewCacheManager shareInstance] registerClass:self];
-    });
-}
 ///初始化回调
 -(void)prepareForInit
 {
