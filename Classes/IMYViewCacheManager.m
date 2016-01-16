@@ -18,12 +18,16 @@
 @end
 
 @implementation IMYViewCacheManager
-+ (instancetype)shareInstance
++(instancetype)shareInstance
 {
-    static IMYViewCacheManager* instance;
+    static id instance = nil;
+    if (instance) {
+        return instance;
+    }
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        instance = [super new];
+        instance = [(id)self alloc];
+        instance = [instance init];
     });
     return instance;
 }
@@ -31,8 +35,8 @@
 {
     self = [super init];
     if (self) {
-        [UIView imy_registerSwizzleViewCache];
         self.viewCachArray = [NSMutableArray array];
+        [UIView imy_registerSwizzleViewCache];
     }
     return self;
 }
@@ -76,20 +80,23 @@
     if (viewClass == nil && reuseIdentifier.length == 0) {
         return nil;
     }
-    for (int i = 0; i < _viewCachArray.count; i++) {
-        IMYViewCache* viewCache = [_viewCachArray objectAtIndex:i];
-        BOOL finded = YES;
-        if (viewClass) {
-            finded = (viewCache.viewInfo.viewClass == viewClass);
-        }
-        if (reuseIdentifier.length > 0) {
-            finded = ([viewCache.viewInfo.reuseIdentifier isEqualToString:reuseIdentifier]);
-        }
-        if (finded) {
-            return viewCache;
-        }
+    __block IMYViewCache* resultViewCache = nil;
+    @synchronized(self) {
+        [self.viewCachArray enumerateObjectsUsingBlock:^(IMYViewCache* viewCache, NSUInteger idx, BOOL * _Nonnull stop) {
+            BOOL finded = YES;
+            if (viewClass) {
+                finded = (viewCache.viewInfo.viewClass == viewClass);
+            }
+            if (reuseIdentifier.length > 0) {
+                finded = ([viewCache.viewInfo.reuseIdentifier isEqualToString:reuseIdentifier]);
+            }
+            if (finded) {
+                resultViewCache = viewCache;
+                *stop = YES;
+            }
+        }];
     }
-    return nil;
+    return resultViewCache;
 }
 - (void)registerViewInfo:(IMYViewCacheRegisterInfo*)info
 {
@@ -105,9 +112,10 @@
     }
     viewCache = [[IMYViewCache alloc] init];
     viewCache.viewInfo = info;
-    viewCache.afterDelay = self.viewCachArray.count * 0.5;
-
-    [self.viewCachArray addObject:viewCache];
+    @synchronized(self) {
+        viewCache.afterDelay = self.viewCachArray.count * 0.5;
+        [self.viewCachArray addObject:viewCache];
+    }
     [viewCache prepareLoadViewCache];
 }
 
@@ -140,13 +148,10 @@
 
 - (void)willMoveToSuperview:(UIView*)newSuperview fromView:(UIView*)view
 {
-    if (self.viewCachArray.count == 0) {
-        return;
-    }
-
-    for (int i = 0; i < _viewCachArray.count; i++) {
-        IMYViewCache* viewCache = [_viewCachArray objectAtIndex:i];
-        [viewCache willMoveToSuperview:newSuperview fromView:view];
+    @synchronized(self) {
+        [self.viewCachArray enumerateObjectsUsingBlock:^(IMYViewCache* viewCache, NSUInteger idx, BOOL * _Nonnull stop) {
+            [viewCache willMoveToSuperview:newSuperview fromView:view];
+        }];
     }
 }
 @end
