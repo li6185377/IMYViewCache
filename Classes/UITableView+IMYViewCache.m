@@ -53,7 +53,7 @@ static const void *IMYUsingViewCacheKey = &IMYUsingViewCacheKey;
 @end
 
 @implementation UIView (IMYViewCache)
-+ (BOOL)imy_swizzleMethod:(SEL)origSel_ withMethod:(SEL)altSel_ error:(NSError**)error_
++ (BOOL)imyviewcache_swizzleMethod:(SEL)origSel_ withMethod:(SEL)altSel_ error:(NSError**)error_
 {
     Method origMethod = class_getInstanceMethod(self, origSel_);
     if (!origMethod) {
@@ -77,12 +77,12 @@ static const void *IMYUsingViewCacheKey = &IMYUsingViewCacheKey;
     
     return YES;
 }
-+ (void)imy_registerSwizzleViewCache
++ (void)imyviewcache_registerSwizzleViewCache
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        [UIView imy_swizzleMethod:@selector(willMoveToSuperview:) withMethod:@selector(imyviewcache_willMoveToSuperview:) error:nil];
-        [UITableView imy_swizzleMethod:@selector(dequeueReusableCellWithIdentifier:) withMethod:@selector(imyviewcache_dequeueReusableCellWithIdentifier:) error:nil];
+        [UIView imyviewcache_swizzleMethod:@selector(willMoveToSuperview:) withMethod:@selector(imyviewcache_willMoveToSuperview:) error:nil];
+        [UITableView imyviewcache_swizzleMethod:@selector(dequeueReusableCellWithIdentifier:) withMethod:@selector(imyviewcache_dequeueReusableCellWithIdentifier:) error:nil];
     });
 }
 - (void)imyviewcache_willMoveToSuperview:(UIView*)newSuperview

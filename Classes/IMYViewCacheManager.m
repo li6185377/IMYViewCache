@@ -10,7 +10,7 @@
 #import "IMYViewCache.h"
 
 @interface UIView (IMYViewCacheSwizzle)
-+ (void)imy_registerSwizzleViewCache;
++ (void)imyviewcache_registerSwizzleViewCache;
 @end
 
 @interface IMYViewCacheManager ()
@@ -36,7 +36,7 @@
     self = [super init];
     if (self) {
         self.viewCachArray = [NSMutableArray array];
-        [UIView imy_registerSwizzleViewCache];
+        [UIView imyviewcache_registerSwizzleViewCache];
     }
     return self;
 }
