@@ -9,47 +9,28 @@
 #import "IMYViewCacheRegisterInfo.h"
 
 @implementation IMYViewCacheRegisterInfo
-- (instancetype)init
-{
+
+- (instancetype)init {
     self = [super init];
     if (self) {
         _delay = [IMYViewCacheRegisterInfo defaultPreloadingDelay];
     }
     return self;
 }
-- (NSString*)reuseIdentifier
-{
+
+- (NSString *)reuseIdentifier {
     if (_reuseIdentifier == nil && _viewClass) {
         _reuseIdentifier = NSStringFromClass(_viewClass);
     }
     return _reuseIdentifier;
 }
-+ (NSInteger)defaultCacheMaxCount
-{
-    double screenHeight = [UIScreen mainScreen].bounds.size.height;
-    if (screenHeight < 500) {
-        ///iphone 4,4s
-        return 4;
-    }
-    if (screenHeight == 568) {
-        ///iphone 5,5s
-        return 6;
-    }
-    ///iphone 6,6+
-    return 8;
+
++ (NSInteger)defaultCacheMaxCount {
+    return 1;
 }
-+ (double)defaultPreloadingDelay
-{
-    double screenHeight = [UIScreen mainScreen].bounds.size.height;
-    if (screenHeight < 500) {
-        ///iphone 4,4s
-        return 9;
-    }
-    if (screenHeight == 568) {
-        ///iphone 5,5s
-        return 6;
-    }
-    ///iphone 6,6+
-    return 3;
+
++ (double)defaultPreloadingDelay {
+    return 10;
 }
+
 @end

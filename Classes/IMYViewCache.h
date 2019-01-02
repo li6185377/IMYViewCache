@@ -10,16 +10,17 @@
 
 @class IMYViewCacheRegisterInfo;
 ///请使用ViewCacheManager 来管理view的缓存
+NS_CLASS_DEPRECATED_IOS(1_0, 1_0, "IMYViewCache has been deprecated!")
 @interface IMYViewCache : NSObject
 
-@property (strong, nonatomic) IMYViewCacheRegisterInfo* viewInfo;
-@property (strong, nonatomic) NSMutableArray* cacheArray;
+@property (nonatomic, strong) IMYViewCacheRegisterInfo *viewInfo;
+@property (nonatomic, strong) NSMutableArray *cacheArray;
 ///每个viewCache加载的间隔 由manager提供
-@property (nonatomic) double afterDelay;
+@property (nonatomic, assign) double afterDelay;
 ///返回一个 view  实例
 - (id)getViewInstance;
 
 ///开始预加载 viewCache
 - (void)prepareLoadViewCache;
-- (void)willMoveToSuperview:(UIView*)newSuperview fromView:(UIView*)view;
+- (void)willMoveToSuperview:(UIView *)newSuperview fromView:(UIView *)view;
 @end

@@ -8,18 +8,16 @@
 
 #import "IMYEBBrandSingleCell.h"
 
-@interface IMYEBBrandSingleCell()
+@interface IMYEBBrandSingleCell ()
 @end
 
 @implementation IMYEBBrandSingleCell
 ///初始化回调
--(void)prepareForInit
-{
+- (void)prepareForInit {
     self.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [IMYEBBrandSingleCell cellHeight]);
 }
 ///复用回调
--(void)prepareForReuse
-{
+- (void)prepareForReuse {
     [super prepareForReuse];
     ///没啥事干
     ///如果是 cell  一定要调用 super
@@ -27,8 +25,7 @@
 }
 
 
-+(CGFloat)cellHeight
-{
-    return ceil(47 + 148*([UIScreen mainScreen].bounds.size.width/320.0f));
++ (CGFloat)cellHeight {
+    return ceil(47 + 148 * ([UIScreen mainScreen].bounds.size.width / 320.0f));
 }
 @end

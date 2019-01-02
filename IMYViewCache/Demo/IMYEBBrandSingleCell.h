@@ -6,8 +6,8 @@
 //  Copyright (c) 2015年 IMY. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "IMYViewCacheManager.h"
+#import <UIKit/UIKit.h>
 
 @interface IMYEBBrandSingleCell : UITableViewCell <IMYViewCacheReuseProtocol>
 
@@ -23,6 +23,6 @@
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *leftTitleLayoutConstraint;
 
-+(CGFloat)cellHeight;
++ (CGFloat)cellHeight;
 
 @end

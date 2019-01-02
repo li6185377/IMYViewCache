@@ -8,17 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+NS_CLASS_DEPRECATED_IOS(1_0, 1_0, "IMYViewCache has been deprecated!")
 @interface IMYViewCacheRegisterInfo : NSObject
 
-@property (nonatomic) Class viewClass; /**< 需要缓存视图类*/
-@property (nonatomic, strong) UINib* nib; /**< 从xib中加载缓存*/
-@property (nonatomic, copy) NSString* reuseIdentifier; /**< 优先取tableView中的缓存*/
-@property (nonatomic) NSUInteger maxCount; /**< 内存中 最大的缓存数量*/
-@property (nonatomic) NSUInteger minCount; /**< 当收到内存警告时 最少的缓存保留数量 默认 0*/
+@property (nonatomic, strong) Class viewClass;         /**< 需要缓存视图类*/
+@property (nonatomic, strong) UINib *nib;              /**< 从xib中加载缓存*/
+@property (nonatomic, copy) NSString *reuseIdentifier; /**< 优先取tableView中的缓存*/
+@property (nonatomic, assign) NSUInteger maxCount;     /**< 内存中 最大的缓存数量*/
+@property (nonatomic, assign) NSUInteger minCount;     /**< 当收到内存警告时 最少的缓存保留数量 默认 0*/
 
-@property (nonatomic) double delay; /**< 注册后 延迟多少秒预加载 view*/
+@property (nonatomic, assign) double delay; /**< 注册后 延迟多少秒预加载 view*/
 
-@property (nonatomic, copy) UIView* (^createViewBlock)(IMYViewCacheRegisterInfo* info); /**< 由外部进行UIView 的初始化*/
+@property (nonatomic, copy) UIView * (^createViewBlock)(IMYViewCacheRegisterInfo *info); /**< 由外部进行UIView 的初始化*/
 
 + (NSInteger)defaultCacheMaxCount;
 + (double)defaultPreloadingDelay;

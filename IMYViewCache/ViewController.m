@@ -24,11 +24,11 @@
     // Dispose of any resources that can be recreated.
 }
 - (IBAction)bt_action_nocache:(id)sender {
-    IMYDemoVC* vc = [[IMYDemoVC alloc] init];
+    IMYDemoVC *vc = [[IMYDemoVC alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (IBAction)bt_action_usingCache:(id)sender {
-    IMYDemoVC* vc = [[IMYDemoVC alloc] init];
+    IMYDemoVC *vc = [[IMYDemoVC alloc] init];
     vc.isUsingCache = YES;
     [self.navigationController pushViewController:vc animated:YES];
 }

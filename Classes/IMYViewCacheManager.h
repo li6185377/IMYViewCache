@@ -6,29 +6,27 @@
 //  Copyright © 2015年 IMY. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "IMYViewCacheRegisterInfo.h"
 #import "IMYViewCache.h"
+#import "IMYViewCacheRegisterInfo.h"
+#import <Foundation/Foundation.h>
 
+NS_CLASS_DEPRECATED_IOS(1_0, 1_0, "IMYViewCache has been deprecated!")
 @interface IMYViewCacheManager : NSObject
 
 + (instancetype)shareInstance;
 
-- (IMYViewCacheRegisterInfo*)registerClass:(Class)viewClass;
-- (IMYViewCacheRegisterInfo*)registerClass:(Class)viewClass fromNib:(UINib*)nib;
-- (IMYViewCacheRegisterInfo*)registerClass:(Class)viewClass fromNib:(UINib*)nib reuseIdentifier:(NSString*)reuseIdentifier maxCount:(NSInteger)maxCount;
-- (void)registerViewInfo:(IMYViewCacheRegisterInfo*)info;
+@property (nonatomic, strong, readonly) NSArray<IMYViewCache *> *viewCachArray;
+
+- (IMYViewCacheRegisterInfo *)registerClass:(Class)viewClass;
+- (IMYViewCacheRegisterInfo *)registerClass:(Class)viewClass fromNib:(UINib *)nib;
+- (IMYViewCacheRegisterInfo *)registerClass:(Class)viewClass fromNib:(UINib *)nib reuseIdentifier:(NSString *)reuseIdentifier maxCount:(NSInteger)maxCount;
+
+- (void)registerViewInfo:(IMYViewCacheRegisterInfo *)info;
 
 - (id)instanceForClass:(Class)viewClass;
-- (id)instanceForClass:(Class)viewClass tableView:(UITableView*)tableView;
-- (id)instanceForClass:(Class)viewClass tableView:(UITableView*)tableView reuseIdentifier:(NSString*)reuseIdentifier;
+- (id)instanceForClass:(Class)viewClass tableView:(UITableView *)tableView;
+- (id)instanceForClass:(Class)viewClass tableView:(UITableView *)tableView reuseIdentifier:(NSString *)reuseIdentifier;
 
-- (IMYViewCache*)getViewCacheForClass:(Class)viewClass reuseIdentifier:(NSString*)reuseIdentifier;
+- (IMYViewCache *)getViewCacheForClass:(Class)viewClass reuseIdentifier:(NSString *)reuseIdentifier;
 
-@end
-
-@interface IMYViewCacheManager (IMY_UNAVAILABLE_ATTRIBUTE)
-- (instancetype)init UNAVAILABLE_ATTRIBUTE;
-+ (instancetype) new UNAVAILABLE_ATTRIBUTE;
-+ (instancetype)alloc UNAVAILABLE_ATTRIBUTE;
 @end
