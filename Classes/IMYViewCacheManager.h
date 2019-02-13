@@ -15,7 +15,7 @@ NS_CLASS_DEPRECATED_IOS(1_0, 1_0, "IMYViewCache has been deprecated!")
 
 + (instancetype)shareInstance;
 
-@property (nonatomic, strong, readonly) NSArray<IMYViewCache *> *viewCachArray;
+@property (atomic, copy, readonly) NSArray<IMYViewCache *> *viewCachArray;
 
 - (IMYViewCacheRegisterInfo *)registerClass:(Class)viewClass;
 - (IMYViewCacheRegisterInfo *)registerClass:(Class)viewClass fromNib:(UINib *)nib;

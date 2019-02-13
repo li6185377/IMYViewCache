@@ -10,7 +10,7 @@
 #import "IMYViewCache.h"
 
 @interface IMYViewCacheManager ()
-@property (nonatomic, strong) NSArray<IMYViewCache *> *viewCachArray;
+@property (atomic, copy) NSArray<IMYViewCache *> *viewCachArray;
 @end
 
 @implementation IMYViewCacheManager
@@ -87,13 +87,13 @@
     
     viewCache = [[IMYViewCache alloc] init];
     viewCache.viewInfo = info;
-    NSArray *oldArray = self.viewCachArray;
+    __block NSArray *oldArray = self.viewCachArray;
     NSMutableArray *mutableArray = [NSMutableArray arrayWithArray:oldArray];
     [mutableArray addObject:viewCache];
-    self.viewCachArray = mutableArray.copy;
+    self.viewCachArray = mutableArray;
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [oldArray description];
+        oldArray = nil;
     });
 }
 
